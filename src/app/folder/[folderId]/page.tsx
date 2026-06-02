@@ -101,7 +101,7 @@ export default function FolderPage() {
 
         {folder.items.length === 0 ? (
           <div className="mt-6 rounded-2xl border border-zinc-200 bg-white p-6 text-sm text-zinc-600">
-            아직 단어가 없어요. 단어를 추가해봐요.
+            아직 단어가 없어요. 단어를 추가해보세요.
           </div>
         ) : (
           <div className="mt-6 flex flex-col gap-4">

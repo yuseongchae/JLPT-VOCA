@@ -58,7 +58,7 @@ export default function Home() {
 
         {folders.length === 0 ? (
           <div className="mt-6 rounded-2xl border border-zinc-200 bg-white p-6 text-sm text-zinc-600">
-            폴더를 만들어 단어장을 시작해봐요.
+            폴더를 만들어 단어장을 만들어보세요.
           </div>
         ) : (
           <div className="mt-6 flex flex-col gap-3">
