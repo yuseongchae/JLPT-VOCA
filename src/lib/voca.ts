@@ -29,6 +29,10 @@ export function containsJapanese(text: string) {
   return /[\u3040-\u30ff\u3400-\u9fff]/.test(text);
 }
 
+export function containsHangul(text: string) {
+  return /[\uac00-\ud7a3]/.test(text);
+}
+
 export function createEmptyData(): AppDataV1 {
   return { version: 1, folders: [] };
 }

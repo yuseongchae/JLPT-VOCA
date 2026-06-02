@@ -42,6 +42,25 @@ const serverSnapshot = createEmptyData();
 let cachedRaw: string | null = null;
 let cachedSnapshot: AppDataV1 = serverSnapshot;
 
+function safeReadRaw() {
+  if (typeof window === "undefined") return null;
+  try {
+    return window.localStorage.getItem(STORAGE_KEY);
+  } catch {
+    return null;
+  }
+}
+
+function safeWriteRaw(raw: string) {
+  if (typeof window === "undefined") return false;
+  try {
+    window.localStorage.setItem(STORAGE_KEY, raw);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
 function emitChange() {
   for (const l of listeners) l();
 }
@@ -61,7 +80,7 @@ function subscribe(listener: () => void) {
 
 function getSnapshot() {
   if (typeof window === "undefined") return serverSnapshot;
-  const raw = window.localStorage.getItem(STORAGE_KEY);
+  const raw = safeReadRaw();
   if (raw === cachedRaw) return cachedSnapshot;
 
   cachedRaw = raw;
@@ -77,9 +96,11 @@ function updateData(updater: (prev: AppDataV1) => AppDataV1) {
   const next = updater(getSnapshot());
   if (typeof window !== "undefined") {
     const raw = JSON.stringify(next);
-    window.localStorage.setItem(STORAGE_KEY, raw);
-    cachedRaw = raw;
-    cachedSnapshot = next;
+    const ok = safeWriteRaw(raw);
+    if (ok) {
+      cachedRaw = raw;
+      cachedSnapshot = next;
+    }
   }
   emitChange();
 }

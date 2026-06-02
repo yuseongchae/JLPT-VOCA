@@ -17,7 +17,7 @@ function Modal({
 }) {
   if (!open) return null;
   return (
-    <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/40 p-4">
+    <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/40 p-5 sm:p-6">
       <div className="w-full max-w-md rounded-3xl bg-white p-5 shadow-xl">
         <div className="flex items-center justify-between">
           <div className="text-lg font-semibold">{title}</div>
@@ -43,7 +43,7 @@ export default function Home() {
   const folders = useMemo(() => data.folders, [data.folders]);
 
   return (
-    <div className="flex flex-1 justify-center px-4 py-6">
+    <div className="flex flex-1 justify-center px-5 py-8 sm:px-6 sm:py-10">
       <div className="w-full max-w-md">
         <div className="flex items-center justify-between">
           <div className="text-xl font-semibold">JLPT 단어장</div>

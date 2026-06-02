@@ -19,7 +19,7 @@ function Modal({
 }) {
   if (!open) return null;
   return (
-    <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/40 p-4">
+    <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/40 p-5 sm:p-6">
       <div className="w-full max-w-md rounded-3xl bg-white p-5 shadow-xl">
         <div className="flex items-center justify-between">
           <div className="text-lg font-semibold">{title}</div>
@@ -40,7 +40,7 @@ function Modal({
 async function lookupAutoFill(q: string) {
   const res = await fetch(`/api/lookup?q=${encodeURIComponent(q)}`, { method: "GET" });
   if (!res.ok) return null;
-  return (await res.json()) as { word?: string; reading?: string };
+  return (await res.json()) as { word?: string; reading?: string; meaningKo?: string };
 }
 
 export default function FolderPage() {
@@ -51,14 +51,14 @@ export default function FolderPage() {
   const folder = useMemo(() => data.folders.find((f) => f.id === folderId), [data.folders, folderId]);
 
   const [open, setOpen] = useState(false);
-  const [meaningKo, setMeaningKo] = useState("");
   const [wordJa, setWordJa] = useState("");
   const [readingJa, setReadingJa] = useState("");
+  const [meaningKo, setMeaningKo] = useState("");
   const [loading, setLoading] = useState(false);
 
   if (!folder) {
     return (
-      <div className="flex flex-1 justify-center px-4 py-6">
+      <div className="flex flex-1 justify-center px-5 py-8 sm:px-6 sm:py-10">
         <div className="w-full max-w-md rounded-2xl border border-zinc-200 bg-white p-4">
           <div className="text-sm text-zinc-600">불러오는 중...</div>
           <Link
@@ -73,7 +73,7 @@ export default function FolderPage() {
   }
 
   return (
-    <div className="flex flex-1 justify-center px-4 py-6">
+    <div className="flex flex-1 justify-center px-5 py-8 sm:px-6 sm:py-10">
       <div className="w-full max-w-md">
         <div className="flex items-center justify-between">
           <Link href="/" className="rounded-full px-3 py-2 text-sm text-zinc-600 hover:bg-zinc-100">
@@ -149,42 +149,43 @@ export default function FolderPage() {
           title="단어 추가"
           onClose={() => {
             setOpen(false);
-            setMeaningKo("");
             setWordJa("");
             setReadingJa("");
+            setMeaningKo("");
             setLoading(false);
           }}
         >
           <div className="flex flex-col gap-3">
             <input
-              value={meaningKo}
-              onChange={(e) => setMeaningKo(e.target.value)}
-              placeholder='한국어 뜻 (예: "우산")'
+              value={wordJa}
+              onChange={(e) => setWordJa(e.target.value)}
+              placeholder='한자/일본어 단어 (예: "好", "入り口")'
               className="w-full rounded-2xl border border-zinc-200 bg-white px-4 py-3 text-sm outline-none focus:border-zinc-400"
             />
             <div className="flex gap-2">
               <button
                 type="button"
-                disabled={!meaningKo.trim() || loading}
+                disabled={!wordJa.trim() || loading}
                 onClick={async () => {
                   setLoading(true);
                   try {
-                    const r = await lookupAutoFill(meaningKo);
+                    const r = await lookupAutoFill(wordJa);
                     if (r?.word) setWordJa(r.word);
                     if (r?.reading) setReadingJa(r.reading);
+                    if (r?.meaningKo) setMeaningKo(r.meaningKo);
                   } finally {
                     setLoading(false);
                   }
                 }}
                 className="rounded-2xl bg-zinc-900 px-4 py-3 text-sm font-semibold text-white disabled:bg-zinc-300"
               >
-                {loading ? "검색중..." : "자동입력"}
+                {loading ? "생성중..." : "자동생성"}
               </button>
               <button
                 type="button"
                 onClick={() => {
-                  setWordJa("");
                   setReadingJa("");
+                  setMeaningKo("");
                 }}
                 className="flex-1 rounded-2xl bg-white px-4 py-3 text-sm font-semibold text-zinc-900 ring-1 ring-zinc-200 hover:bg-zinc-50"
               >
@@ -192,15 +193,15 @@ export default function FolderPage() {
               </button>
             </div>
             <input
-              value={wordJa}
-              onChange={(e) => setWordJa(e.target.value)}
-              placeholder='한자/표기 (예: "傘")'
-              className="w-full rounded-2xl border border-zinc-200 bg-white px-4 py-3 text-sm outline-none focus:border-zinc-400"
-            />
-            <input
               value={readingJa}
               onChange={(e) => setReadingJa(e.target.value)}
               placeholder='히라가나 발음 (예: "かさ")'
+              className="w-full rounded-2xl border border-zinc-200 bg-white px-4 py-3 text-sm outline-none focus:border-zinc-400"
+            />
+            <input
+              value={meaningKo}
+              onChange={(e) => setMeaningKo(e.target.value)}
+              placeholder='한글 뜻 (예: "싸움")'
               className="w-full rounded-2xl border border-zinc-200 bg-white px-4 py-3 text-sm outline-none focus:border-zinc-400"
             />
             <button
@@ -208,9 +209,9 @@ export default function FolderPage() {
               onClick={() => {
                 addItem(folderId, { meaningKo, wordJa, readingJa });
                 setOpen(false);
-                setMeaningKo("");
                 setWordJa("");
                 setReadingJa("");
+                setMeaningKo("");
               }}
               className="rounded-2xl bg-zinc-900 px-4 py-3 text-sm font-semibold text-white hover:bg-zinc-800"
             >

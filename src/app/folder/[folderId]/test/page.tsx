@@ -30,7 +30,7 @@ export default function TestPage() {
 
   if (!folder) {
     return (
-      <div className="flex flex-1 justify-center px-4 py-6">
+      <div className="flex flex-1 justify-center px-5 py-8 sm:px-6 sm:py-10">
         <div className="w-full max-w-md rounded-2xl border border-zinc-200 bg-white p-4">
           <div className="text-sm text-zinc-600">불러오는 중...</div>
           <Link
@@ -46,7 +46,7 @@ export default function TestPage() {
 
   if (items.length === 0) {
     return (
-      <div className="flex flex-1 justify-center px-4 py-6">
+      <div className="flex flex-1 justify-center px-5 py-8 sm:px-6 sm:py-10">
         <div className="w-full max-w-md rounded-2xl border border-zinc-200 bg-white p-4">
           <div className="text-sm text-zinc-600">시험 볼 단어가 없어요.</div>
           <Link
@@ -64,7 +64,7 @@ export default function TestPage() {
   const current = done ? null : items[index];
 
   return (
-    <div className="flex flex-1 justify-center px-4 py-6">
+    <div className="flex flex-1 justify-center px-5 py-8 sm:px-6 sm:py-10">
       <div className="w-full max-w-md">
         <div className="flex items-center justify-between">
           <Link href={`/folder/${folderId}`} className="rounded-full px-3 py-2 text-sm text-zinc-600 hover:bg-zinc-100">
