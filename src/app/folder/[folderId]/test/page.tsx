@@ -147,7 +147,7 @@ export default function TestPage() {
                   </div>
                 </div>
               ) : (
-                <div className="mt-6 text-sm text-zinc-500">한자룰 눌러 정답 확인</div>
+                <div className="mt-6 text-sm text-zinc-500">한자를 눌러 정답 확인</div>
               )}
             </button>
 
