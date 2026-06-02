@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useParams } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
 import { useMemo, useState } from "react";
 import { useVocaStore } from "@/app/providers";
 import { speakJa } from "@/lib/speech";
@@ -46,11 +46,12 @@ async function lookupAutoFill(q: string) {
 export default function FolderPage() {
   const params = useParams<{ folderId: string }>();
   const folderId = params.folderId;
+  const searchParams = useSearchParams();
 
   const { data, addItem, deleteItem, toggleFavorite } = useVocaStore();
   const folder = useMemo(() => data.folders.find((f) => f.id === folderId), [data.folders, folderId]);
 
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(() => searchParams.get("add") === "1");
   const [wordJa, setWordJa] = useState("");
   const [readingJa, setReadingJa] = useState("");
   const [meaningKo, setMeaningKo] = useState("");
@@ -86,14 +87,14 @@ export default function FolderPage() {
         <div className="mt-4 flex items-center gap-2">
           <Link
             href={`/folder/${folderId}/test`}
-            className="flex-1 rounded-2xl bg-zinc-900 px-4 py-3 text-center text-sm font-semibold text-white hover:bg-zinc-800"
+            className="flex-1 rounded-2xl bg-white px-4 py-3 text-center text-sm font-semibold text-zinc-900 ring-1 ring-zinc-200 hover:bg-zinc-50"
           >
             시험 기능
           </Link>
           <button
             type="button"
             onClick={() => setOpen(true)}
-            className="flex-1 rounded-2xl bg-white px-4 py-3 text-sm font-semibold text-zinc-900 ring-1 ring-zinc-200 hover:bg-zinc-50"
+            className={`flex-1 rounded-2xl px-4 py-3 text-sm font-semibold ${open ? "bg-zinc-900 text-white hover:bg-zinc-800" : "bg-white text-zinc-900 ring-1 ring-zinc-200 hover:bg-zinc-50"}`}
           >
             단어 추가
           </button>
@@ -160,7 +161,7 @@ export default function FolderPage() {
               value={wordJa}
               onChange={(e) => setWordJa(e.target.value)}
               placeholder='한자/일본어 단어 (예: "好", "入り口")'
-              className="w-full rounded-2xl border border-zinc-200 bg-white px-4 py-3 text-sm outline-none focus:border-zinc-400"
+              className="w-full rounded-2xl border border-zinc-200 bg-white px-4 py-3 text-base outline-none focus:border-zinc-400 sm:text-sm"
             />
             <div className="flex gap-2">
               <button
@@ -196,13 +197,13 @@ export default function FolderPage() {
               value={readingJa}
               onChange={(e) => setReadingJa(e.target.value)}
               placeholder='히라가나 발음 (예: "かさ")'
-              className="w-full rounded-2xl border border-zinc-200 bg-white px-4 py-3 text-sm outline-none focus:border-zinc-400"
+              className="w-full rounded-2xl border border-zinc-200 bg-white px-4 py-3 text-base outline-none focus:border-zinc-400 sm:text-sm"
             />
             <input
               value={meaningKo}
               onChange={(e) => setMeaningKo(e.target.value)}
               placeholder='한글 뜻 (예: "싸움")'
-              className="w-full rounded-2xl border border-zinc-200 bg-white px-4 py-3 text-sm outline-none focus:border-zinc-400"
+              className="w-full rounded-2xl border border-zinc-200 bg-white px-4 py-3 text-base outline-none focus:border-zinc-400 sm:text-sm"
             />
             <button
               type="button"

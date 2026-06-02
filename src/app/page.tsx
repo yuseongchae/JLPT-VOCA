@@ -103,7 +103,7 @@ export default function Home() {
               value={folderName}
               onChange={(e) => setFolderName(e.target.value)}
               placeholder='예) "JLPT N4 3장"'
-              className="w-full rounded-2xl border border-zinc-200 bg-white px-4 py-3 text-sm outline-none focus:border-zinc-400"
+              className="w-full rounded-2xl border border-zinc-200 bg-white px-4 py-3 text-base outline-none focus:border-zinc-400 sm:text-sm"
             />
             <button
               type="button"

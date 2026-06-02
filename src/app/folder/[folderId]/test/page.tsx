@@ -79,8 +79,23 @@ export default function TestPage() {
           </div>
         </div>
 
+        <div className="mt-4 flex items-center gap-2">
+          <Link
+            href={`/folder/${folderId}/test`}
+            className="flex-1 rounded-2xl bg-zinc-900 px-4 py-3 text-center text-sm font-semibold text-white hover:bg-zinc-800"
+          >
+            시험 기능
+          </Link>
+          <Link
+            href={`/folder/${folderId}?add=1`}
+            className="flex-1 rounded-2xl bg-white px-4 py-3 text-center text-sm font-semibold text-zinc-900 ring-1 ring-zinc-200 hover:bg-zinc-50"
+          >
+            단어 추가
+          </Link>
+        </div>
+
         {done ? (
-          <div className="mt-6 rounded-3xl border border-zinc-200 bg-white p-6 text-center shadow-sm">
+          <div className="mt-4 rounded-3xl border border-zinc-200 bg-white p-6 text-center shadow-sm">
             <div className="text-lg font-semibold">끝!</div>
             <div className="mt-2 text-sm text-zinc-600">
               맞음 {correct} / 틀림 {wrong}
@@ -111,7 +126,7 @@ export default function TestPage() {
             <button
               type="button"
               onClick={() => setRevealed((v) => !v)}
-              className="mt-6 w-full rounded-3xl border border-zinc-200 bg-white px-6 py-10 text-center shadow-sm"
+              className="mt-4 w-full rounded-3xl border border-zinc-200 bg-white px-6 py-10 text-center shadow-sm"
             >
               <div className="text-6xl font-semibold tracking-tight">{current?.wordJa}</div>
               {revealed ? (
